@@ -62,8 +62,10 @@ App = {
     console.log(`userInPreviousBets: ${JSON.stringify(previousUserBets)}`)
     console.log(`userInCurrentBets: ${sumUserBets}`)
     console.log(`userInPreviousBets: ${sumPreviousUserBets}`)
-    $("#placeBetText").val(sumUserBets);
-    App.accountHasBet = sumUserBets !== 0
+    if (sumUserBets > 0) {
+        $("#placeBetText").val(sumUserBets * 1000);
+    }
+    App.accountHasBet = sumUserBets > 0
     $("#jackpot").html(`Jackpot: ${sumAllUserBets}`);
     $("#totalbets").html(`Total Bets: ${allCurrentBets.length}`);
     $("#resultLabel").html(accountIsWinner ?
