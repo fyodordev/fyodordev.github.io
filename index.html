@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lotto</title>
+
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container" style="width: 650px;">
+    <div class="row">
+      <div class="col-lg-12">
+        <h2 class="text-center">The Magic Of The Cryptolotto</h1>
+        <hr />
+        <br />
+        <div id="loader">
+          <p class="text-center">Loading...</p>
+        </div>
+        <div id="content" style="display: none;">
+          <h3 id="resultLabel" class="text-center"></h1>
+          <em><h4 id="jackpot"></h4></em>
+          <div id="totalbets"></div>
+          <div id="nextDrawingTime"></div>
+          <hr />
+          <p id="accountAddress"></p>
+          <p id="accountBalance"></p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-group col-lg-12">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+            <span class="input-group-text">Your bet (ETH)</span>
+            </div>
+                <input type="number" id="placeBetText" class="form-control" aria-label="Amount (to the nearest dollar)">
+                <div class="input-group-append">
+            </div>
+        </div>
+      </div>
+    </div>
+    <p />
+    <p>Choose an option:</p>
+    <div class="row">
+      <div class="input-group col-lg-12">
+        <div id="optionsList" class="list-group">
+          </div>
+      </div>
+    </div>
+            <button id="placeBetButton" type="button" class="btn btn-primary placeBetButton">Set and finalize bet</button>
+  </div>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/web3.min.js"></script>
+  <script type="text/javascript" src="js/truffle-contract.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>
