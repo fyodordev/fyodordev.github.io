@@ -34,7 +34,6 @@ App = {
   },
 
   stateChange: async () => {
-    console.log('state change called')
     App.accountBalance = web3.utils.fromWei(await web3.eth.getBalance(App.account), "ether");
     const previousDrawingTime = App.nextDrawingTime;
     App.nextDrawingTime = await App.lottoInstance.getNextDrawingTime(0);
@@ -43,7 +42,6 @@ App = {
     try {
         periodChanged = parseInt(previousDrawingTime) !== parseInt(App.nextDrawingTime);
     } catch (e) {}
-    if (periodChanged) console.log(`Period changed from ${previousDrawingTime} to ${App.nextDrawingTime}.`)
     App.optionsCount = await App.lottoInstance.getNOptions(0);
 
     const getAccBets = (arr) => {
@@ -65,12 +63,6 @@ App = {
     const [winningOptionIdx, winningOptionLabel] = await App.getWinningOption(1);
     const accountIsWinner = !previousUserBets.every(userBet => (
         parseInt(userBet['option_idx']) !== parseInt(winningOptionIdx)))
-    console.log(`winning Option is: ${winningOptionIdx}`)
-    console.log(`accountiswinner: ${accountIsWinner}`)
-    console.log(`userInCurrentBets: ${JSON.stringify(currentUserBets)}`)
-    console.log(`userInPreviousBets: ${JSON.stringify(previousUserBets)}`)
-    console.log(`userInCurrentBets: ${sumUserBets}`)
-    console.log(`userInPreviousBets: ${sumPreviousUserBets}`)
     if (sumUserBets > 0 || periodChanged) {
         $("#placeBetText").val(sumUserBets * 1000);
     }
@@ -89,15 +81,11 @@ App = {
         const timeLeft = deadline - currentTime;
             
         if (timeLeft > 0) {
-            console.log('render time and time left')
             const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
             $("#nextDrawingTime").html(`Bets close in ${minutes} minute${minutes === 1 ? 's' : ''}, ${seconds} seconds`);
                 // code goes here
         } else {
-            console.log('render time and time not left')
-            console.log(`deadline is ${new Date(App.nextDrawingTime * 1000).toTimeString()}`)
-            console.log(`now is ${new Date().toTimeString()}`)
             $("#nextDrawingTime").html(`Bets closed.`);
             App.render();
             clearInterval(App.renderInterval);
@@ -110,7 +98,6 @@ App = {
   },
 
   initContract: async () => {
-    console.log('init called')
     let lottoJSON = await $.getJSON("Lotto.json");
     // Instantiate a new truffle contract from the artifact
     App.contracts.Lotto = TruffleContract(lottoJSON);
@@ -124,8 +111,6 @@ App = {
     // register callback which checks if the account has changed,
     // if so, rerender the affected parts of the application
     window.ethereum.on('accountsChanged', async function (accounts) {
-        console.log('accounts changed')
-        console.log(JSON.stringify(accounts));
       if (accounts[0] !== App.account) {
         App.account = accounts[0];
         await App.stateChange();
@@ -135,7 +120,6 @@ App = {
     $('#placeBetButton').on('click', async function(e) {
         e.preventDefault();
         const inputValue = $('#placeBetText').val()
-        console.log(`place bet button clicked ${inputValue}`)
         if (!isNaN(inputValue)) {
             await App.placeBet(App.selectedOption, web3.utils.toWei((inputValue / 1000).toString()))
             App.accountHasBet = true
@@ -145,7 +129,6 @@ App = {
 
 
     web3.eth.subscribe('newBlockHeaders', async (err, res) => {
-        console.log('blockchain update')
         await App.stateChange();
     });
 
@@ -154,14 +137,12 @@ App = {
 
   getOptionSelectHandler: (optionsIdx) => {
         return () => {
-            console.log(`selected ${optionsIdx}`)
             App.selectedOption = optionsIdx
             App.render();
         };
   },
 
   render: () => {
-    console.log('render is called')
     var loader = $("#loader");
     var content = $("#content");
 
@@ -170,10 +151,6 @@ App = {
 
     //App.renderDrawingTime();
     App.renderAccount();
-
-    //web3.eth.getBalance(App.account, (err, balance) => {
-    //    console.log(web3.utils.fromWei(balance, "ether") + " ETH")
-    //});
 
     /*
     `<div class="list-group">
