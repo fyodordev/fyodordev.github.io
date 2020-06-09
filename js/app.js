@@ -128,7 +128,7 @@ App = {
         const inputValue = $('#placeBetText').val()
         console.log(`place bet button clicked ${inputValue}`)
         if (!isNaN(inputValue)) {
-            await App.placeBet(App.selectedOption, web3.utils.toWei(inputValue))
+            await App.placeBet(App.selectedOption, web3.utils.toWei((inputValue / 1000).toString()))
             App.accountHasBet = true
             App.render();
         }
