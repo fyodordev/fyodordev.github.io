@@ -36,6 +36,8 @@ App = {
   stateChange: async () => {
     console.log('state change called')
     App.accountBalance = web3.utils.fromWei(await web3.eth.getBalance(App.account), "ether");
+    App.nextDrawingTime = await App.lottoInstance.getNextDrawingTime(0);
+    App.optionsCount = await App.lottoInstance.getNOptions(0);
 
     const getAccBets = (arr) => {
         return arr.filter((bet) => (
@@ -109,8 +111,6 @@ App = {
     App.contracts.Lotto.setProvider(web3.currentProvider);
     // get the deployed contract instance. `lottoInstance` is a truffle-contract object
     App.lottoInstance = await App.contracts.Lotto.at("0xA73f7A1e898BCe3FcA1Df2c32cA9581d4E96f159");
-    App.nextDrawingTime = await App.lottoInstance.getNextDrawingTime(0);
-    App.optionsCount = await App.lottoInstance.getNOptions(0);
     App.account = window.ethereum.selectedAddress;
 
 
