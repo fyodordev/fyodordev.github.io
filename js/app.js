@@ -104,7 +104,7 @@ App = {
     // Connect provider to interact with contract
     App.contracts.Lotto.setProvider(web3.currentProvider);
     // get the deployed contract instance. `lottoInstance` is a truffle-contract object
-    App.lottoInstance = await App.contracts.Lotto.at("0xA73f7A1e898BCe3FcA1Df2c32cA9581d4E96f159");
+    App.lottoInstance = await App.contracts.Lotto.at("0x54b05541687F9fBbf4f706E78E6e8d2A9fCBdc3D");
     App.account = window.ethereum.selectedAddress;
 
 
