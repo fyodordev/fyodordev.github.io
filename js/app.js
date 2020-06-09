@@ -36,7 +36,14 @@ App = {
   stateChange: async () => {
     console.log('state change called')
     App.accountBalance = web3.utils.fromWei(await web3.eth.getBalance(App.account), "ether");
+    const previousDrawingTime = App.nextDrawingTime;
     App.nextDrawingTime = await App.lottoInstance.getNextDrawingTime(0);
+
+    let periodChanged = true
+    try {
+        periodChanged = parseInt(previousDrawingTime) !== parseInt(App.nextDrawingTime);
+    } catch (e) {}
+    if (periodChanged) console.log(`Period changed from ${previousDrawingTime} to ${App.nextDrawingTime}.`)
     App.optionsCount = await App.lottoInstance.getNOptions(0);
 
     const getAccBets = (arr) => {
@@ -64,7 +71,7 @@ App = {
     console.log(`userInPreviousBets: ${JSON.stringify(previousUserBets)}`)
     console.log(`userInCurrentBets: ${sumUserBets}`)
     console.log(`userInPreviousBets: ${sumPreviousUserBets}`)
-    if (sumUserBets > 0) {
+    if (sumUserBets > 0 || periodChanged) {
         $("#placeBetText").val(sumUserBets * 1000);
     }
     App.accountHasBet = sumUserBets > 0
